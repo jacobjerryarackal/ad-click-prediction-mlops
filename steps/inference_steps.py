@@ -14,19 +14,25 @@ logger = get_logger(__name__)
 @step
 def load_inference_data(
     data_path: str = "data/dataset.csv"
-) -> Annotated[pd.DataFrame, "inference_data"]:
+) -> Tuple[
+    Annotated[pd.DataFrame, "inference_data"],
+    Annotated[pd.Series, "user_ids"]
+]:
     """
     ZenML Step: Loads data for inference. Drops columns that shouldn't be passed to the model.
     """
     logger.info(f"Loading inference data from {data_path}...")
     df = pd.read_csv(data_path)
     
+    # Extract user IDs before dropping
+    user_ids = df["id"] if "id" in df.columns else pd.Series(dtype=str)
+    
     # Simulate unseen data by dropping target and split features
     cols_to_drop = ["click", "id", "hour"]
     df = df.drop(columns=[c for c in cols_to_drop if c in df.columns])
         
     logger.info(f"Loaded {len(df)} rows for batch inference.")
-    return df
+    return df, user_ids
 
 @step
 def load_model_artifacts() -> Tuple[
@@ -51,9 +57,10 @@ def predict_batch(
     model: ClassifierMixin,
     preprocessor: ColumnTransformer,
     df: pd.DataFrame,
+    user_ids: pd.Series,
 ) -> Annotated[pd.DataFrame, "predictions"]:
     logger.info("Starting batch prediction...")
-    predictions = generate_predictions(model, preprocessor, df)
+    predictions = generate_predictions(model, preprocessor, df, user_ids)
     return predictions
 
 @step

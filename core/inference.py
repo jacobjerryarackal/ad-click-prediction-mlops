@@ -8,7 +8,8 @@ logger = logging.getLogger(__name__)
 def generate_predictions(
     model: ClassifierMixin,
     preprocessor: ColumnTransformer,
-    df: pd.DataFrame
+    df: pd.DataFrame,
+    user_ids: pd.Series = None
 ) -> pd.DataFrame:
     """
     Applies the fitted preprocessor and model to generate predictions.
@@ -26,4 +27,9 @@ def generate_predictions(
     
     # Return a DataFrame with predictions
     result_df = pd.DataFrame({"click_probability": probabilities})
+    
+    # Attach the user IDs back to the predictions if provided
+    if user_ids is not None and not user_ids.empty:
+        result_df.insert(0, "id", user_ids.values)
+        
     return result_df
