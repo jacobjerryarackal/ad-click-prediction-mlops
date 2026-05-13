@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: ad-click-prediction
+Version: 0.1.0
+Summary: Ad Click Prediction MLOps Pipeline
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: zenml[server]
+Requires-Dist: mlflow
+Requires-Dist: evidently
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: lightgbm
+Requires-Dist: xgboost
+Requires-Dist: pyarrow
+Requires-Dist: fastparquet
+Requires-Dist: pymysql
+Requires-Dist: sqlmodel
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+
+# Ad Click Prediction MLOps
+
+An MLOps project for predicting Ad Clicks using ZenML, MLflow, and Evidently.

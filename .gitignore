@@ -1,7 +1,9 @@
+.zen/
+venv/
+**pycache**/
+.ipynb_checkpoints/
+*.pyc
 data/
 *.csv
 *.gz
-**pycache**/
-.ipynb_checkpoints/
 .env
-venv/

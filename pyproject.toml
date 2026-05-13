@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ad-click-prediction"
+version = "0.1.0"
+description = "Ad Click Prediction MLOps Pipeline"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "zenml[server]",
+    "mlflow",
+    "evidently",
+    "pandas",
+    "scikit-learn",
+    "lightgbm",
+    "xgboost",
+    "pyarrow",
+    "fastparquet",
+    "pymysql",
+    "sqlmodel"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "ruff"
+]
+
+[tool.setuptools]
+packages = ["core", "steps", "pipelines"]
+

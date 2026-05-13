@@ -1,0 +1,16 @@
+zenml[server]
+mlflow
+evidently
+pandas
+scikit-learn
+lightgbm
+xgboost
+pyarrow
+fastparquet
+pymysql
+sqlmodel
+
+[dev]
+pytest
+black
+ruff
