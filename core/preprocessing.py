@@ -14,8 +14,8 @@ def get_preprocessor(X_train: pd.DataFrame) -> ColumnTransformer:
     in production and crash the system.
     """
     # Identify high cardinality columns to drop for MVP
-    # Heuristic: Drop anything with > 1000 unique values in training
-    high_cardinality_cols = [col for col in X_train.columns if X_train[col].nunique() > 1000]
+    # Heuristic: Drop anything with > 20 unique values in training to prevent Out of Memory (OOM) errors
+    high_cardinality_cols = [col for col in X_train.columns if X_train[col].nunique() > 20]
     
     # The remaining categorical columns will be One-Hot Encoded
     low_cardinality_cols = [col for col in X_train.columns if col not in high_cardinality_cols]
