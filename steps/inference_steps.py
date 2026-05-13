@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 from sklearn.base import ClassifierMixin
 from sklearn.compose import ColumnTransformer
 from typing import Tuple
@@ -54,3 +55,14 @@ def predict_batch(
     logger.info("Starting batch prediction...")
     predictions = generate_predictions(model, preprocessor, df)
     return predictions
+
+@step
+def save_predictions(predictions: pd.DataFrame, output_path: str = "data/predictions.csv") -> None:
+    """
+    ZenML Step: Saves the batch predictions to a CSV file.
+    """
+    logger.info(f"Saving predictions to {output_path}...")
+    # Ensure the target directory exists
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    predictions.to_csv(output_path, index=False)
+    logger.info("Predictions saved successfully.")

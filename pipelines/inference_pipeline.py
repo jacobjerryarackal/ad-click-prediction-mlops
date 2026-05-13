@@ -1,5 +1,5 @@
 from zenml import pipeline
-from steps.inference_steps import load_inference_data, load_model_artifacts, predict_batch
+from steps.inference_steps import load_inference_data, load_model_artifacts, predict_batch, save_predictions
 
 @pipeline
 def ad_click_batch_inference_pipeline():
@@ -13,8 +13,11 @@ def ad_click_batch_inference_pipeline():
     model, preprocessor = load_model_artifacts()
     
     # 3. Generate predictions
-    predict_batch(
+    predictions = predict_batch(
         model=model,
         preprocessor=preprocessor,
         df=df
     )
+    
+    # 4. Save predictions to CSV
+    save_predictions(predictions=predictions)
