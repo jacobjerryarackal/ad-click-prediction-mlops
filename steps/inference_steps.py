@@ -39,7 +39,7 @@ def load_model_artifacts() -> Tuple[
     client = Client()
     model_version = client.get_model_version("ad_click_predictor", "latest")
     
-    logger.info(f"Loading artifacts from version: {model_version.version}")
+    logger.info(f"Loading artifacts from version: {model_version.name}")
     model = model_version.get_artifact("trained_model").load()
     preprocessor = model_version.get_artifact("preprocessor").load()
     
