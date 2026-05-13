@@ -1,4 +1,7 @@
+import logging
 import pandas as pd
+
+logger = logging.getLogger(__name__)
 
 def validate_dataset(df: pd.DataFrame) -> None:
     """
@@ -21,4 +24,4 @@ def validate_dataset(df: pd.DataFrame) -> None:
     if completely_null_cols:
         raise ValueError(f"Validation Failure: The following columns are completely null: {completely_null_cols}")
         
-    print(f"Data validation passed. Data shape: {df.shape}")
+    logger.info(f"Data validation passed. Data shape: {df.shape}")
