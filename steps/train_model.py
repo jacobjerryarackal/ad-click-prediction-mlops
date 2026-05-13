@@ -1,5 +1,6 @@
 import pandas as pd
 import mlflow
+import mlflow.xgboost
 from sklearn.base import ClassifierMixin
 from typing_extensions import Annotated
 from zenml import step
@@ -23,7 +24,6 @@ def train_model(
     mlflow.sklearn.autolog()
     
     if model_type == "xgboost":
-        import mlflow.xgboost
         mlflow.xgboost.autolog()
         model = train_xgboost_model(X_train, y_train)
     else:
