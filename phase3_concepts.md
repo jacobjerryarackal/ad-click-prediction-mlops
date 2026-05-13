@@ -58,3 +58,8 @@ Now, every model is perfectly reproducible and comparable.
 **The Concept**: To generate predictions on new data in production, you cannot re-fit your preprocessing logic (like creating new mean values or new one-hot encoding columns). The exact `ColumnTransformer` object fitted on the training data must transform the new inference data.
 
 **The Solution**: We updated the training pipeline to output and save the `preprocessor` as a versioned artifact in the Model Registry. Our **Batch Inference Pipeline** dynamically loads both the latest model AND the latest preprocessor from the registry, applies them identically to new unseen data, and outputs click probabilities perfectly calibrated for the bidding engine.
+
+## 11. Real-Time API Deployment (MVP v3)
+**The Concept**: Bidding engines need predictions in milliseconds. We must expose our model over HTTP. However, if we simply deploy the XGBoost model artifact, the API will expect preprocessed numerical columns and crash when given raw JSON user data.
+
+**The Solution**: We built a custom **FastAPI endpoint** (`serve_api.py`). On startup, it connects to the ZenML Model Registry and caches both the `trained_model` and the `preprocessor` into memory. When a JSON POST request arrives, it passes the raw data through our exact pure-python `core.inference` logic, guaranteeing that training-serving skew is impossible even in a real-time environment.

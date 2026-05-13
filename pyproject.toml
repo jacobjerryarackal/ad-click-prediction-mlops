@@ -19,7 +19,9 @@ dependencies = [
     "pyarrow",
     "fastparquet",
     "pymysql",
-    "sqlmodel"
+    "sqlmodel",
+    "fastapi",
+    "uvicorn"
 ]
 
 [project.optional-dependencies]
