@@ -1,6 +1,6 @@
 import pandas as pd
-from evidently.report import Report
-from evidently.metric_preset import DataDriftPreset
+from evidently.legacy.report import Report
+from evidently.legacy.metric_preset import DataDriftPreset
 import logging
 
 logger = logging.getLogger(__name__)
