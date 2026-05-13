@@ -36,3 +36,13 @@ This guarantees execution order and allows the orchestrator to track the lineage
 **The Concept**: A model with 99% accuracy is useless if it predicts "not clicked" for everyone in an imbalanced dataset. We must measure metrics that tie directly to business costs.
 
 **The Solution**: We evaluate **Precision** (to minimize false positives and wasted ad spend), **LogLoss** (to ensure probabilities are well-calibrated for the bidding engine), and **AUC** (to measure general ranking quality). We strictly evaluate on the `X_test` holdout set that was never seen during preprocessing fitting or model training.
+
+## 8. Experiment Tracking & Model Registry (MVP v2)
+**The Concept**: If you run a script and print the metrics to the terminal, those results are lost forever. When you try to reproduce the best model next week, you won't remember which hyperparameters or data split you used.
+
+**The Solution**: We integrated **MLflow** and ZenML's **Model Control Plane (MCP)**. 
+1. By attaching `@pipeline(model=Model(...))`, ZenML acts as a bookshelf. Every pipeline run automatically creates a new "Model Version" on the shelf.
+2. By using `@step(experiment_tracker="mlflow_tracker")` and `mlflow.sklearn.autolog()`, every hyperparameter (like `class_weight='balanced'`) is automatically recorded without writing manual logging code.
+3. By using `log_metadata()`, our evaluation metrics (Precision, LogLoss, AUC) are permanently attached to the specific model version in the registry. 
+
+Now, every model is perfectly reproducible and comparable.

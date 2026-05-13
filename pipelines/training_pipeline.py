@@ -1,11 +1,17 @@
-from zenml import pipeline
+from zenml import pipeline, Model
 from steps.load_data import load_and_validate_data
 from steps.split_data import split_dataset
 from steps.preprocessing import preprocess_data
 from steps.train_model import train_model
 from steps.evaluate_model import evaluate
 
-@pipeline
+@pipeline(
+    model=Model(
+        name="ad_click_predictor",
+        description="Predicts whether a user will click an online ad",
+        tags=["baseline", "logistic_regression", "tabular"],
+    )
+)
 def ad_click_training_pipeline():
     """
     ZenML Pipeline: Defines the end-to-end training workflow.
