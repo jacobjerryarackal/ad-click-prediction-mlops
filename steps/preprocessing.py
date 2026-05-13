@@ -1,6 +1,7 @@
 import pandas as pd
 from typing import Tuple
 from typing_extensions import Annotated
+from sklearn.compose import ColumnTransformer
 from zenml import step
 from zenml.logger import get_logger
 from core.preprocessing import get_preprocessor
@@ -18,6 +19,7 @@ def preprocess_data(
     Annotated[pd.DataFrame, "X_test_processed"],
     Annotated[pd.Series, "y_train"],
     Annotated[pd.Series, "y_test"],
+    Annotated[ColumnTransformer, "preprocessor"],
 ]:
     """
     ZenML Step: Fits the sklearn pipeline on training data, and transforms both train and test sets.
@@ -40,4 +42,4 @@ def preprocess_data(
     
     logger.info(f"Preprocessing complete. Training features shape: {X_train_processed.shape}")
     
-    return X_train_processed, X_test_processed, y_train, y_test
+    return X_train_processed, X_test_processed, y_train, y_test, preprocessor

@@ -53,3 +53,8 @@ Now, every model is perfectly reproducible and comparable.
 **The Solution**: We introduce **XGBoost**, an advanced gradient boosting ensemble that builds decision trees sequentially to correct prior errors. It is the industry standard for tabular data.
 
 **Handling Imbalance**: Instead of `class_weight`, XGBoost uses `scale_pos_weight`. We dynamically calculate this as `count(negative_samples) / count(positive_samples)` to ensure the trees don't ignore the minority "clicked" class.
+
+## 10. Batch Inference & Artifact Loading (MVP v3)
+**The Concept**: To generate predictions on new data in production, you cannot re-fit your preprocessing logic (like creating new mean values or new one-hot encoding columns). The exact `ColumnTransformer` object fitted on the training data must transform the new inference data.
+
+**The Solution**: We updated the training pipeline to output and save the `preprocessor` as a versioned artifact in the Model Registry. Our **Batch Inference Pipeline** dynamically loads both the latest model AND the latest preprocessor from the registry, applies them identically to new unseen data, and outputs click probabilities perfectly calibrated for the bidding engine.

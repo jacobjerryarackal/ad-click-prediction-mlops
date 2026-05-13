@@ -23,7 +23,7 @@ def ad_click_training_pipeline():
     X_train_raw, X_test_raw, y_train, y_test = split_dataset(df)
     
     # 3. Preprocess features (bundle transformations to prevent skew)
-    X_train_processed, X_test_processed, y_train, y_test = preprocess_data(
+    X_train_processed, X_test_processed, y_train, y_test, preprocessor = preprocess_data(
         X_train=X_train_raw,
         X_test=X_test_raw,
         y_train=y_train,
