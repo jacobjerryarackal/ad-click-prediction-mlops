@@ -46,3 +46,10 @@ This guarantees execution order and allows the orchestrator to track the lineage
 3. By using `log_metadata()`, our evaluation metrics (Precision, LogLoss, AUC) are permanently attached to the specific model version in the registry. 
 
 Now, every model is perfectly reproducible and comparable.
+
+## 9. The Candidate Model: XGBoost
+**The Concept**: Linear models (like Logistic Regression) struggle to capture complex, non-linear interactions in tabular data (e.g., clicking behavior varying wildly depending on the interaction between `device_type` and `hour`).
+
+**The Solution**: We introduce **XGBoost**, an advanced gradient boosting ensemble that builds decision trees sequentially to correct prior errors. It is the industry standard for tabular data.
+
+**Handling Imbalance**: Instead of `class_weight`, XGBoost uses `scale_pos_weight`. We dynamically calculate this as `count(negative_samples) / count(positive_samples)` to ensure the trees don't ignore the minority "clicked" class.

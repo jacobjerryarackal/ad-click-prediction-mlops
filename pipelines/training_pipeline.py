@@ -9,7 +9,7 @@ from steps.evaluate_model import evaluate
     model=Model(
         name="ad_click_predictor",
         description="Predicts whether a user will click an online ad",
-        tags=["baseline", "logistic_regression", "tabular"],
+        tags=["candidate", "xgboost", "tabular"],
     )
 )
 def ad_click_training_pipeline():
@@ -30,10 +30,11 @@ def ad_click_training_pipeline():
         y_test=y_test
     )
     
-    # 4. Train baseline model
+    # 4. Train model
     model = train_model(
         X_train=X_train_processed, 
-        y_train=y_train
+        y_train=y_train,
+        model_type="xgboost"
     )
     
     # 5. Evaluate model
