@@ -2,11 +2,17 @@ import pandas as pd
 from typing import Tuple
 from typing_extensions import Annotated
 from zenml import step
-from core.preprocessing import split_data_chronological, get_preprocessor
+from zenml.logger import get_logger
+from core.preprocessing import get_preprocessor
+
+logger = get_logger(__name__)
 
 @step
 def preprocess_data(
-    df: pd.DataFrame,
+    X_train: pd.DataFrame,
+    X_test: pd.DataFrame,
+    y_train: pd.Series,
+    y_test: pd.Series,
 ) -> Tuple[
     Annotated[pd.DataFrame, "X_train_processed"],
     Annotated[pd.DataFrame, "X_test_processed"],
@@ -14,12 +20,9 @@ def preprocess_data(
     Annotated[pd.Series, "y_test"],
 ]:
     """
-    ZenML Step: Splits data chronologically, fits the sklearn pipeline, and transforms the data.
+    ZenML Step: Fits the sklearn pipeline on training data, and transforms both train and test sets.
     """
-    print("Splitting data chronologically...")
-    X_train, X_test, y_train, y_test = split_data_chronological(df)
-    
-    print("Building and fitting preprocessor...")
+    logger.info("Building and fitting preprocessor...")
     preprocessor = get_preprocessor(X_train)
     
     # Fit on training data ONLY to avoid data leakage
@@ -35,6 +38,6 @@ def preprocess_data(
     X_train_processed = pd.DataFrame(X_train_processed_array, columns=feature_names)
     X_test_processed = pd.DataFrame(X_test_processed_array, columns=feature_names)
     
-    print(f"Preprocessing complete. Training features shape: {X_train_processed.shape}")
+    logger.info(f"Preprocessing complete. Training features shape: {X_train_processed.shape}")
     
     return X_train_processed, X_test_processed, y_train, y_test

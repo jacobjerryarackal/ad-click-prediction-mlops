@@ -2,35 +2,6 @@ import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
-from typing import Tuple
-
-def split_data_chronological(df: pd.DataFrame, target_col: str = "click", test_size: float = 0.2) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
-    """
-    Splits the data chronologically based on the 'hour' column.
-    
-    Concept: Data Leakage
-    If we split randomly, future clicks might be in the training set and past clicks in the test set.
-    The model would 'cheat' by learning future trends to predict the past.
-    By sorting chronologically, we simulate real-world production where we train on the past to predict the future.
-    """
-    print("Sorting data chronologically...")
-    # Sort data by time
-    df_sorted = df.sort_values(by="hour").reset_index(drop=True)
-    
-    # Calculate split index
-    split_idx = int(len(df_sorted) * (1 - test_size))
-    
-    train_df = df_sorted.iloc[:split_idx]
-    test_df = df_sorted.iloc[split_idx:]
-    
-    # Drop ID, target, and hour (used only for splitting, not a direct feature)
-    X_train = train_df.drop(columns=[target_col, "id", "hour"]) 
-    y_train = train_df[target_col]
-    
-    X_test = test_df.drop(columns=[target_col, "id", "hour"])
-    y_test = test_df[target_col]
-    
-    return X_train, X_test, y_train, y_test
 
 def get_preprocessor(X_train: pd.DataFrame) -> ColumnTransformer:
     """
