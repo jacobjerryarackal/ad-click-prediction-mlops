@@ -12,6 +12,7 @@ sample_data = {
     "app_id": "ecad2386",
     "app_domain": "7801e8d9",
     "app_category": "07d7df22",
+    "device_id": "a99f214a",
     "device_ip": "eb34399b",
     "device_model": "8a4875bd",
     "device_type": 1,

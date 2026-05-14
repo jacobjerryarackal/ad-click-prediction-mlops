@@ -25,6 +25,7 @@ class AdClickPayload(BaseModel):
     app_id: str
     app_domain: str
     app_category: str
+    device_id: str
     device_ip: str
     device_model: str
     device_type: int
