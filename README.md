@@ -114,7 +114,7 @@ python serve_api.py
 ```
 **Terminal 2 (Frontend):**
 ```bash
-streamlit run streamlit_app.py
+streamlit run app.py
 ```
 
 ### 4. Automated Retraining (Drift Check)
