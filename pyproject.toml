@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ad-click-prediction"
-version = "0.1.1"
+version = "0.1.2"
 description = "Ad Click Prediction MLOps Pipeline"
 readme = "README.md"
 requires-python = ">=3.10,<3.14"
@@ -20,10 +20,10 @@ dependencies = [
     "fastparquet",
     "pymysql",
     "sqlmodel",
-    "fastapi",
-    "starlette<0.45.0",
+    "fastapi<=0.112.2",
+    "starlette<=0.39.2",
     "uvicorn",
-    "streamlit",
+    "streamlit>=1.39.0",
     "requests"
 ]
 
