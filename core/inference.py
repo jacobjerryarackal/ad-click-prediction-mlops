@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.base import ClassifierMixin
 from sklearn.compose import ColumnTransformer
+from typing import Optional
 import logging
 
 logger = logging.getLogger(__name__)
@@ -9,7 +10,7 @@ def generate_predictions(
     model: ClassifierMixin,
     preprocessor: ColumnTransformer,
     df: pd.DataFrame,
-    user_ids: pd.Series = None
+    user_ids: Optional[pd.Series] = None
 ) -> pd.DataFrame:
     """
     Applies the fitted preprocessor and model to generate predictions.

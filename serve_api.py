@@ -4,6 +4,7 @@ import uvicorn
 from zenml.client import Client
 from core.inference import generate_predictions
 import logging
+from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -28,7 +29,7 @@ def load_artifacts():
     logger.info("API is ready to accept requests!")
 
 @app.post("/predict")
-def predict(payload: dict):
+def predict(payload: Dict[str, Any]) -> Dict[str, float]:
     """Accepts a JSON payload (raw user features), transforms it, and returns a click probability."""
     df = pd.DataFrame([payload])  # Convert JSON dictionary to Pandas DataFrame
     predictions = generate_predictions(model, preprocessor, df)
