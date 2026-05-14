@@ -2,10 +2,10 @@ from fastapi import FastAPI
 import pandas as pd
 import uvicorn
 from pydantic import BaseModel, Field
-from zenml.client import Client
 from core.inference import generate_predictions
 import logging
 from typing import Dict, Any
+import joblib
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -41,16 +41,15 @@ class AdClickPayload(BaseModel):
 
 @app.on_event("startup")
 def load_artifacts():
-    """Loads the model and preprocessor from the ZenML Model Registry into memory at startup."""
+    """Loads the model and preprocessor from local files into memory at startup."""
     global model, preprocessor
-    logger.info("Connecting to ZenML Model Registry...")
-    client = Client()
-    model_version = client.get_model_version("ad_click_predictor", "latest")
-    
-    logger.info(f"Downloading artifacts from version: {model_version.name}...")
-    model = model_version.get_artifact("trained_model").load()
-    preprocessor = model_version.get_artifact("preprocessor").load()
-    logger.info("API is ready to accept requests!")
+    logger.info("Loading artifacts from local 'models' directory...")
+    try:
+        model = joblib.load("models/model.pkl")
+        preprocessor = joblib.load("models/preprocessor.pkl")
+        logger.info("✅ Artifacts loaded successfully. API is ready to accept requests!")
+    except Exception as e:
+        logger.error(f"❌ Failed to load artifacts. Did you run export_model.py? Error: {e}")
 
 @app.post("/predict")
 def predict(payload: AdClickPayload) -> Dict[str, float]:
