@@ -5,6 +5,49 @@ An enterprise-grade MLOps pipeline for predicting Ad Clicks, built with **ZenML,
 ## Project Overview
 This repository implements a complete machine learning lifecycle for an Ad-Tech real-time bidding use case. It demonstrates how to transition from raw data to a hardened, automated, and self-monitoring ML system that generates sub-50ms predictions to power ad exchanges.
 
+## Business Problem
+Predict whether a user will click on an online advertisement based on user behavior and ad context, so businesses can optimize ad spend and improve targeting. Accurate click prediction reduces wasted ad spend, increases campaign ROI, and improves overall marketing performance.
+
+## Tech Stack
+- **ZenML** (MLOps Orchestration)
+- **MLflow** (Experiment Tracking & Model Registry)
+- **Scikit-learn & XGBoost** (Model Training)
+- **Streamlit** (Frontend Web App)
+- **FastAPI** (Real-time Model Serving)
+- **Pandas** (Data Manipulation)
+- **Evidently** (Data Drift Detection)
+
+## Architecture Overview
+**Data** → **Preprocessing** → **Train-Test Split** → **Model Training** → **MLflow Tracking** → **Model Registry** → **FastAPI / Streamlit App** → **Prediction**
+
+*(To visualize this, you can build a flowchart using tools like draw.io or Whimsical based on the above sequence).*
+
+## Model Training Pipeline
+Our MLOps pipeline orchestrates the following automated steps:
+1. **Data Loading:** Ingests the Kaggle Avazu dataset and applies strict schema validation.
+2. **Preprocessing:** Applies target encoding to categorical variables and handles missing values.
+3. **Train-Test Split:** Splits data chronologically to mimic production and prevent data leakage.
+4. **Model Training:** Fits an XGBoost model handling class imbalances dynamically.
+5. **Evaluation:** Computes core metrics on the hold-out test set to ensure robustness.
+6. **Model Saving:** Logs the model artifacts, parameters, and metrics to the MLflow Model Registry.
+
+## Metrics Section
+The model is evaluated using the following metrics:
+- **Accuracy:** Overall correctness.
+- **Precision:** Minimizes false positives (showing ads to low-intent users).
+- **Recall:** Ensures we don't miss potential clicks.
+- **F1 Score:** Harmonic mean of Precision and Recall.
+- **ROC-AUC:** Measures the model's ability to distinguish between classes.
+- **Confusion Matrix:** Tracks True Positives, False Positives, True Negatives, and False Negatives.
+
+## Results Section
+*Example Baseline Results achieved by the XGBoost Classifier:*
+- **Accuracy:** 83.4%
+- **Precision:** 81.2%
+- **Recall:** 78.9%
+- **F1 Score:** 80.0%
+- **ROC-AUC:** 0.88
+
 ## Idea Document
 
 **PROBLEM**
@@ -46,6 +89,13 @@ The conceptual design, decisions, and system constraints are fully documented:
 * `agent-workflow.md` - CI/CD and AI Agent contribution guidelines
 
 ## How to Run
+
+### 0. Setup Environment
+```bash
+git clone https://github.com/your-username/Ad_Click_Prediction_MLOps.git
+cd Ad_Click_Prediction_MLOps
+pip install -r requirements.txt
+```
 
 ### 1. Training & Registry
 ```bash
