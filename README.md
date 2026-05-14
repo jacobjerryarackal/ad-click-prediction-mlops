@@ -20,7 +20,7 @@ Predict whether a user will click on an online advertisement based on user behav
 ## Architecture Overview
 **Data** → **Preprocessing** → **Train-Test Split** → **Model Training** → **MLflow Tracking** → **Model Registry** → **FastAPI / Streamlit App** → **Prediction**
 
-*(To visualize this, you can build a flowchart using tools like draw.io or Whimsical based on the above sequence).*
+![Architecture Diagram](whimsical.png)
 
 ## Model Training Pipeline
 Our MLOps pipeline orchestrates the following automated steps:
