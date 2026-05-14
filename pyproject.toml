@@ -21,7 +21,9 @@ dependencies = [
     "pymysql",
     "sqlmodel",
     "fastapi",
-    "uvicorn"
+    "uvicorn",
+    "streamlit",
+    "requests"
 ]
 
 [project.optional-dependencies]
