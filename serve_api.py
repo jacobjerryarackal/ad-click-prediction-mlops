@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import pandas as pd
 import uvicorn
 from pydantic import BaseModel, Field
+from fastapi import HTTPException
 from core.inference import generate_predictions
 import logging
 from typing import Dict, Any
@@ -54,6 +55,9 @@ def load_artifacts():
 @app.post("/predict")
 def predict(payload: AdClickPayload) -> Dict[str, float]:
     """Accepts a JSON payload (raw user features), transforms it, and returns a click probability."""
+    if model is None or preprocessor is None:
+        raise HTTPException(status_code=503, detail="Model artifacts not found on the server. Make sure model.pkl and preprocessor.pkl are pushed to GitHub.")
+        
     # Convert the validated Pydantic object into a Pandas DataFrame
     df = pd.DataFrame([payload.model_dump()])  
     predictions = generate_predictions(model, preprocessor, df)
