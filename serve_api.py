@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import pandas as pd
 import uvicorn
+from pydantic import BaseModel
 from zenml.client import Client
 from core.inference import generate_predictions
 import logging
@@ -14,6 +15,28 @@ app = FastAPI(title="Ad Click Predictor API", description="Real-time inference e
 # Global variables to hold artifacts in memory
 model = None
 preprocessor = None
+
+class AdClickPayload(BaseModel):
+    C1: int
+    banner_pos: int
+    site_id: str
+    site_domain: str
+    site_category: str
+    app_id: str
+    app_domain: str
+    app_category: str
+    device_ip: str
+    device_model: str
+    device_type: int
+    device_conn_type: int
+    C14: int
+    C15: int
+    C16: int
+    C17: int
+    C18: int
+    C19: int
+    C20: int
+    C21: int
 
 @app.on_event("startup")
 def load_artifacts():
@@ -29,9 +52,10 @@ def load_artifacts():
     logger.info("API is ready to accept requests!")
 
 @app.post("/predict")
-def predict(payload: Dict[str, Any]) -> Dict[str, float]:
+def predict(payload: AdClickPayload) -> Dict[str, float]:
     """Accepts a JSON payload (raw user features), transforms it, and returns a click probability."""
-    df = pd.DataFrame([payload])  # Convert JSON dictionary to Pandas DataFrame
+    # Convert the validated Pydantic object into a Pandas DataFrame
+    df = pd.DataFrame([payload.model_dump()])  
     predictions = generate_predictions(model, preprocessor, df)
     return {"click_probability": float(predictions["click_probability"].iloc[0])}
 
