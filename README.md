@@ -5,6 +5,28 @@ An enterprise-grade MLOps pipeline for predicting Ad Clicks, built with **ZenML,
 ## Project Overview
 This repository implements a complete machine learning lifecycle for an Ad-Tech real-time bidding use case. It demonstrates how to transition from raw data to a hardened, automated, and self-monitoring ML system that generates sub-50ms predictions to power ad exchanges.
 
+## Idea Document
+
+**PROBLEM**
+Build a system that predicts whether a user will click on an online advertisement based on user behavior and ad context.
+
+**TARGET VARIABLE**
+Clicked / Not Clicked (Binary Classification)
+
+**WHO IS THIS FOR**
+Digital marketing teams, advertising platforms, and e-commerce companies running paid ad campaigns.
+
+**WHY DOES IT MATTER**
+Accurate click prediction helps improve ad targeting, reduces wasted ad spend, increases campaign ROI, and improves overall marketing performance.
+
+**DATASET SOURCE**
+[Kaggle – Avazu Click-Through Rate Prediction Competition](https://www.kaggle.com/c/avazu-ctr-prediction/data)
+
+**SUCCESS METRICS**
+- **LogLoss** → for probability calibration
+- **AUC** → for ranking quality
+- **Precision** → to reduce false positives (showing ads to low-intent users)
+
 ## Key Features
 * **Robust Pipelines:** Orchestrated via ZenML, including chronologically split data to prevent leakage.
 * **Advanced Feature Engineering:** Utilizing Target Encoding inside `sklearn.Pipeline` to handle high-cardinality features (like IP addresses) without training-serving skew.
