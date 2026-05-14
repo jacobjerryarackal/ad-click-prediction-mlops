@@ -3,6 +3,8 @@
 ## MLOps Pipeline Overview
 1. **Data Ingestion** → 2. **Data Validation** → 3. **Feature Engineering** → 4. **Model Training** → 5. **Model Evaluation** → 6. **Model Registry** → 7. **Deployment** → 8. **Monitoring** → 9. **Drift Detection** → 10. **Retraining Trigger**
 
+> **Note:** For deep details on production scaling (10M requests/day), latency budgets (<50ms), and deployment architecture (Redis, BentoML, Shadow Deployments), please see the **System Design Document**.
+
 ## Data Plan
 - **Ingestion**: Read from `/data/dataset.csv`. Use the entire dataset for robustness.
 - **Versioning**: Track datasets automatically via ZenML Artifacts.
