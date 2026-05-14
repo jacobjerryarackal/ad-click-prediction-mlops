@@ -2,9 +2,9 @@ import streamlit as st
 import requests
 
 # Fetch the API URL from Streamlit secrets if deployed, otherwise fallback to localhost
-if "API_URL" in st.secrets:
+try:
     API_URL = st.secrets["API_URL"]
-else:
+except Exception:
     API_URL = "http://127.0.0.1:8000/predict"
 
 st.set_page_config(page_title="Ad Click Predictor", page_icon="🎯", layout="centered")
