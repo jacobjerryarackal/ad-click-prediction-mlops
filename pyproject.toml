@@ -21,6 +21,7 @@ dependencies = [
     "pymysql",
     "sqlmodel",
     "fastapi",
+    "starlette<0.45.0",
     "uvicorn",
     "streamlit",
     "requests"
