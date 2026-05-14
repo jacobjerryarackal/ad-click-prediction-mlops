@@ -4,7 +4,7 @@ from typing_extensions import Annotated
 from sklearn.compose import ColumnTransformer
 from zenml import step
 from zenml.logger import get_logger
-from core.preprocessing import get_preprocessor
+from core.advanced_preprocessing import get_advanced_preprocessor
 
 logger = get_logger(__name__)
 
@@ -25,10 +25,10 @@ def preprocess_data(
     ZenML Step: Fits the sklearn pipeline on training data, and transforms both train and test sets.
     """
     logger.info("Building and fitting preprocessor...")
-    preprocessor = get_preprocessor(X_train)
+    preprocessor = get_advanced_preprocessor(X_train)
     
-    # Fit on training data ONLY to avoid data leakage
-    X_train_processed_array = preprocessor.fit_transform(X_train)
+    # Fit on training data AND target labels to securely calculate Target Encodings
+    X_train_processed_array = preprocessor.fit_transform(X_train, y_train)
     
     # Transform test data (never fit on test data!)
     X_test_processed_array = preprocessor.transform(X_test)
