@@ -9,8 +9,10 @@ pyarrow
 fastparquet
 pymysql
 sqlmodel
+fastapi
+uvicorn
 
 [dev]
 pytest
-black
 ruff
+mypy

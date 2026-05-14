@@ -15,10 +15,12 @@ Requires-Dist: pyarrow
 Requires-Dist: fastparquet
 Requires-Dist: pymysql
 Requires-Dist: sqlmodel
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
 Provides-Extra: dev
 Requires-Dist: pytest; extra == "dev"
-Requires-Dist: black; extra == "dev"
 Requires-Dist: ruff; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
 
 # Ad Click Prediction MLOps
 

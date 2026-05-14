@@ -9,11 +9,13 @@ def test_advanced_preprocessor_pipeline():
     """
     # 1. Arrange: Create mock data representing our 3 feature types
     mock_data = pd.DataFrame({
-        "site_id": ["domain_A", "domain_B", "domain_A"], # High Cardinality (Target Encoded)
-        "site_category": ["news", "sports", "news"],     # Low Cardinality (One-Hot Encoded)
-        "C14": [1500, 2500, 3500]                        # Numeric (Scaled)
+        # TargetEncoder uses 5-fold StratifiedKFold by default, so we need 
+        # at least 5 samples of each class (10 rows total) to avoid ValueError.
+        "site_id": ["domain_A", "domain_B"] * 5,         # High Cardinality (Target Encoded)
+        "site_category": ["news", "sports"] * 5,         # Low Cardinality (One-Hot Encoded)
+        "C14": [1500, 2500] * 5                          # Numeric (Scaled)
     })
-    mock_labels = pd.Series([1, 0, 1])
+    mock_labels = pd.Series([1, 0] * 5)
 
     # 2. Act: Build and fit the preprocessor
     preprocessor = get_advanced_preprocessor(mock_data)
