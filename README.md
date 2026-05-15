@@ -1,6 +1,15 @@
 # Ad Click Prediction MLOps
 
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-00a393.svg)](https://fastapi.tiangolo.com/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B.svg)](https://streamlit.io/)
+[![ZenML](https://img.shields.io/badge/ZenML-MLOps-7B51FF.svg)](https://zenml.io/)
+
 An enterprise-grade MLOps pipeline for predicting Ad Clicks, built with **ZenML, MLflow, Evidently, XGBoost, and FastAPI**.
+
+## 🚀 Live Deployment
+- **Frontend UI (Streamlit):** [https://ad-click-prediction-mlops-4sze3kyurafmhgp6ucgutu.streamlit.app/](https://ad-click-prediction-mlops-4sze3kyurafmhgp6ucgutu.streamlit.app/)
+- **Backend API (FastAPI / Swagger UI):** [https://ad-click-prediction-api.onrender.com/docs](https://ad-click-prediction-api.onrender.com/docs)
 
 ## Project Overview
 This repository implements a complete machine learning lifecycle for an Ad-Tech real-time bidding use case. It demonstrates how to transition from raw data to a hardened, automated, and self-monitoring ML system that generates sub-50ms predictions to power ad exchanges.
