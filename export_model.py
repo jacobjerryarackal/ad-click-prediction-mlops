@@ -20,20 +20,31 @@ def export_artifacts():
     
     # Dynamically search through the pipeline steps for the model and preprocessor
     for step_name, step in run.steps.items():
-        # Handle different ZenML version properties
-        outputs = step.outputs if hasattr(step, "outputs") else {"output": step.output}
+        print(f"Checking step: '{step_name}'...")
+        
+        outputs = {}
+        if hasattr(step, "outputs") and step.outputs:
+            outputs = step.outputs
+        elif hasattr(step, "output") and step.output:
+            outputs = {"output": step.output}
             
         for output_name, artifact_view in outputs.items():
             try:
+                # Handle newer ZenML versions where outputs are lists of artifacts
+                if isinstance(artifact_view, list):
+                    if not artifact_view:
+                        continue
+                    artifact_view = artifact_view[0]
+                    
                 obj = artifact_view.load()
                 if hasattr(obj, "predict"):
                     model = obj
-                    print(f"✅ Found model in step: '{step_name}'")
+                    print(f"  ✅ Found model in output '{output_name}'!")
                 elif hasattr(obj, "transform") and not hasattr(obj, "predict"):
                     preprocessor = obj
-                    print(f"✅ Found preprocessor in step: '{step_name}'")
-            except Exception:
-                continue
+                    print(f"  ✅ Found preprocessor in output '{output_name}'!")
+            except Exception as e:
+                print(f"  ⚠️ Could not load output '{output_name}': {e}")
             
     if model:
         joblib.dump(model, "models/model.pkl")
