@@ -40,21 +40,21 @@ def export_artifacts():
                 if hasattr(obj, "predict"):
                     model = obj
                     print(f"  ✅ Found model in output '{output_name}'!")
-                elif hasattr(obj, "transform") and not hasattr(obj, "predict"):
+                elif hasattr(obj, "transform") and hasattr(obj, "fit") and not hasattr(obj, "predict"):
                     preprocessor = obj
                     print(f"  ✅ Found preprocessor in output '{output_name}'!")
             except Exception as e:
                 print(f"  ⚠️ Could not load output '{output_name}': {e}")
             
-    if model:
+    if model is not None:
         joblib.dump(model, "models/model.pkl")
-    if preprocessor:
+    if preprocessor is not None:
         joblib.dump(preprocessor, "models/preprocessor.pkl")
         
-    if model and preprocessor:
+    if model is not None and preprocessor is not None:
         print("\n🚀 Successfully exported models/model.pkl and models/preprocessor.pkl!")
     else:
-        print("\n❌ Missing artifacts. Model found:", bool(model), "| Preprocessor found:", bool(preprocessor))
+        print("\n❌ Missing artifacts. Model found:", model is not None, "| Preprocessor found:", preprocessor is not None)
 
 if __name__ == "__main__":
     export_artifacts()
